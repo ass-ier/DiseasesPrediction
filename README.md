@@ -36,7 +36,6 @@ DiseasePrediction/
 	•	Required Python libraries:
 ```
 pip install numpy pandas scikit-learn
-
 ```
 📥 Dataset
 
@@ -52,7 +51,6 @@ The dataset folder should be in the same directory as the Python files.
 python DiabetesPredictionModelTraining.py
 python HeartPredictionModelTraining.py
 python ParkinsonsPredictionModelTraining.py
-
 ```
 
 Each script:
@@ -77,7 +75,6 @@ Example input for the diabetes model:
 ```
 input_data = [4, 110, 92, 0, 0, 37.6, 0.191, 30]
 The person is diabetic.
-
 ```
 
 You can replace input_data with new patient data to test other predictions.
