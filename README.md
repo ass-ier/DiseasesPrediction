@@ -27,15 +27,17 @@ DiseasePrediction/
 ├── README.md
 ├── Documentation.pdf
 └── Presentation.pptx
+```
 
 🚀 How to Run the Project
 
 ✅ Prerequisites
 	•	Python 3.x
 	•	Required Python libraries:
-
+```
 pip install numpy pandas scikit-learn
 
+```
 📥 Dataset
 
 Make sure the following files are in the dataset directory:
@@ -46,10 +48,12 @@ Make sure the following files are in the dataset directory:
 The dataset folder should be in the same directory as the Python files.
 
 🛠️ Model Training
-
+```
 python DiabetesPredictionModelTraining.py
 python HeartPredictionModelTraining.py
 python ParkinsonsPredictionModelTraining.py
+
+```
 
 Each script:
 	•	Loads and preprocesses the dataset.
@@ -70,9 +74,11 @@ You can load these files in any Python environment to make new predictions.
 
 Example input for the diabetes model:
 
-
+```
 input_data = [4, 110, 92, 0, 0, 37.6, 0.191, 30]
 The person is diabetic.
+
+```
 
 You can replace input_data with new patient data to test other predictions.
 
