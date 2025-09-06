@@ -23,14 +23,24 @@ CORS(app)
 def load_model_and_scaler(model_path, scaler_path):
     """Load a model and its corresponding scaler"""
     try:
+        # Check if files exist
+        if not os.path.exists(model_path):
+            logger.error(f"Model file not found: {model_path}")
+            return None, None
+        if not os.path.exists(scaler_path):
+            logger.error(f"Scaler file not found: {scaler_path}")
+            return None, None
+            
         model = pickle.load(open(model_path, 'rb'))
         scaler = pickle.load(open(scaler_path, 'rb'))
+        logger.info(f"Successfully loaded model and scaler for {model_path}")
         return model, scaler
     except Exception as e:
         logger.error(f"Error loading model/scaler: {e}")
         return None, None
 
 # Load all models
+logger.info("Loading models...")
 diabetes_model, diabetes_scaler = load_model_and_scaler('diabetes_model.sav', 'diabetes_scaler.sav')
 heart_model, heart_scaler = load_model_and_scaler('heart_model.sav', 'heart_scaler.sav')
 parkinsons_model, parkinsons_scaler = load_model_and_scaler('parkinsons_model.sav', 'parkinsons_scaler.sav')
@@ -73,6 +83,14 @@ def health_check():
             'diabetes': diabetes_model is not None,
             'heart': heart_model is not None,
             'parkinsons': parkinsons_model is not None
+        },
+        'files_exist': {
+            'diabetes_model.sav': os.path.exists('diabetes_model.sav'),
+            'diabetes_scaler.sav': os.path.exists('diabetes_scaler.sav'),
+            'heart_model.sav': os.path.exists('heart_model.sav'),
+            'heart_scaler.sav': os.path.exists('heart_scaler.sav'),
+            'parkinsons_model.sav': os.path.exists('parkinsons_model.sav'),
+            'parkinsons_scaler.sav': os.path.exists('parkinsons_scaler.sav'),
         }
     })
 
@@ -81,9 +99,12 @@ def predict_diabetes():
     """Predict diabetes risk"""
     try:
         if diabetes_model is None or diabetes_scaler is None:
-            return jsonify({'error': 'Diabetes model not available'}), 500
+            logger.error("Diabetes model or scaler not available")
+            return jsonify({'error': 'Diabetes model not available. Please check if model files are uploaded.'}), 500
         
         data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
         
         # Extract features in the correct order
         features = [
@@ -128,6 +149,9 @@ def predict_diabetes():
             'riskLevel': risk_level
         })
         
+    except KeyError as e:
+        logger.error(f"Missing field in request: {e}")
+        return jsonify({'error': f'Missing required field: {e}'}), 400
     except Exception as e:
         logger.error(f"Error in diabetes prediction: {e}")
         return jsonify({'error': 'Failed to make prediction'}), 500
@@ -137,9 +161,12 @@ def predict_heart_disease():
     """Predict heart disease risk"""
     try:
         if heart_model is None or heart_scaler is None:
-            return jsonify({'error': 'Heart disease model not available'}), 500
+            logger.error("Heart disease model or scaler not available")
+            return jsonify({'error': 'Heart disease model not available. Please check if model files are uploaded.'}), 500
         
         data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
         
         # Extract features in the correct order
         features = [
@@ -189,6 +216,9 @@ def predict_heart_disease():
             'riskLevel': risk_level
         })
         
+    except KeyError as e:
+        logger.error(f"Missing field in request: {e}")
+        return jsonify({'error': f'Missing required field: {e}'}), 400
     except Exception as e:
         logger.error(f"Error in heart disease prediction: {e}")
         return jsonify({'error': 'Failed to make prediction'}), 500
@@ -198,9 +228,12 @@ def predict_parkinsons():
     """Predict Parkinson's disease risk"""
     try:
         if parkinsons_model is None or parkinsons_scaler is None:
-            return jsonify({'error': 'Parkinson\'s disease model not available'}), 500
+            logger.error("Parkinson's disease model or scaler not available")
+            return jsonify({'error': 'Parkinson\'s disease model not available. Please check if model files are uploaded.'}), 500
         
         data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
         
         # Extract features in the correct order (excluding name and status)
         features = [
@@ -259,6 +292,9 @@ def predict_parkinsons():
             'riskLevel': risk_level
         })
         
+    except KeyError as e:
+        logger.error(f"Missing field in request: {e}")
+        return jsonify({'error': f'Missing required field: {e}'}), 400
     except Exception as e:
         logger.error(f"Error in Parkinson's disease prediction: {e}")
         return jsonify({'error': 'Failed to make prediction'}), 500
