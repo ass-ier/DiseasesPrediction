@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { DiabetesPrediction, HeartDiseasePrediction, ParkinsonsPrediction, PredictionResult } from '../types';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://diseasesprediction-8wvr.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
