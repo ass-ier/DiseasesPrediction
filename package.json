@@ -1,0 +1,26 @@
+{
+  "name": "diseases-prediction-system",
+  "version": "1.0.0",
+  "description": "AI-powered disease prediction system with React frontend and Flask backend",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && python app.py",
+    "frontend": "cd frontend && npm run dev",
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && pip install -r requirements.txt",
+    "build": "cd frontend && npm run build",
+    "start": "cd frontend && npm run preview"
+  },
+  "keywords": [
+    "machine-learning",
+    "disease-prediction",
+    "react",
+    "flask",
+    "ai",
+    "healthcare"
+  ],
+  "author": "triplea",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
